@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>BCGW WMS</title>
+  <script src="../Build/Cesium/Cesium.js"></script>
+  <style>
+      @import url(../Build/Cesium/Widgets/widgets.css);
+      html, body, #cesiumContainer {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    var viewer = new Cesium.Viewer('cesiumContainer');
+    var pinBuilder = new Cesium.PinBuilder();
+    var entity = viewer.entities.add({
+        position : Cesium.Cartesian3.fromDegrees(-123.369205, 48.418110),
+        label : {
+            text : 'Queens Printer',
+            verticalOrigin : Cesium.VerticalOrigin.TOP
+        },
+        billboard : {
+            image : pinBuilder.fromColor(Cesium.Color.SALMON, 48).toDataURL(),
+            verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+    }
+});
+
+// Add a WMS layer
+var imageryLayers = viewer.imageryLayers;
+imageryLayers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
+    url : 'https://openmaps.gov.bc.ca/geo/pub/WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_MUNICIPALITIES_SP/ows',
+    layers : 'pub:WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_MUNICIPALITIES_SP',
+    parameters : {
+        transparent : true,
+        format : 'image/png'
+    }
+}));
+
+// Start with globe centred on BC.
+viewer.camera.setView({
+    destination: Cesium.Rectangle.fromDegrees(-133.117997, 45.613706, -114.810814,  59.939533)
+});
+  </script>
+</body>
+</html>
