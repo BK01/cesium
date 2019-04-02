@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-  <title>BCGW WMS</title>
+  <title>BCGW WMS and GEOJSON</title>
   <script src="../Build/Cesium/Cesium.js"></script>
   <style>
       @import url(../Build/Cesium/Widgets/widgets.css);
@@ -30,24 +30,28 @@
         billboard : {
             image : pinBuilder.fromColor(Cesium.Color.SALMON, 48).toDataURL(),
             verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
-    }
-});
+            }
+    });
 
-// Add a WMS layer
-var imageryLayers = viewer.imageryLayers;
-imageryLayers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
-    url : 'https://openmaps.gov.bc.ca/geo/pub/WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_MUNICIPALITIES_SP/ows',
-    layers : 'pub:WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_MUNICIPALITIES_SP',
-    parameters : {
-        transparent : true,
-        format : 'image/png'
-    }
-}));
+  // Add a WMS layer
+    var imageryLayers = viewer.imageryLayers;
+        imageryLayers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
+        url : 'https://openmaps.gov.bc.ca/geo/pub/WHSE_TANTALIS.TA_PARK_ECORES_PA_SVW/ows',
+        layers : 'pub:WHSE_TANTALIS.TA_PARK_ECORES_PA_SVW',
+        parameters : {
+            transparent : true,
+            format : 'image/png'
+            }
+    }));
+//var dataSource = Cesium.GeoJsonDataSource.load('https://gist.githubusercontent.com/wavded/1200773/raw/e122cf709898c09758aecfef349964a8d73a83f3/sample.json');
+var dataSource = Cesium.GeoJsonDataSource.load('https://catalogue.data.gov.bc.ca/dataset/e8eeefc4-2826-47bc-8430-85703d328516/resource/c495d082-b586-4df0-9e06-bd6b66a8acd9/download/bcairzones.geojson');
+viewer.dataSources.add(dataSource);
 
-// Start with globe centred on BC.
-viewer.camera.setView({
+    
+  // Start with globe centred on BC.
+  viewer.camera.setView({
     destination: Cesium.Rectangle.fromDegrees(-133.117997, 45.613706, -114.810814,  59.939533)
-});
+    });
   </script>
 </body>
 </html>
